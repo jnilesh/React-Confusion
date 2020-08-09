@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Navbar, NavbarBrand } from 'reactstrap';
 import DishDetail from './DishdetailComponent';
 import Menu from './MenuComponent';
 import { DISHES } from '../shared/dishes';
+
+import Header from './HeaderComponent';
+import Footer from './FooterComponent';
 
 class Main extends Component {
     constructor(props) {
@@ -21,19 +23,10 @@ class Main extends Component {
     render() {
         return (
             <div>
-                <Navbar dark color="primary">
-                    <div className="container">
-                        <NavbarBrand href="/">Ristorante ConFusion</NavbarBrand>
-                    </div>
-                </Navbar>
-                <Menu dishes={this.state.dishes}
-                    onClick={(dishID) => this.onDishSelect(dishID)} />
-
-                    {/* here filter function will return that element in an new array, from the actual
-                     array which satisfies this condition that dish.id === this.state.selectedDish
-                     and we will select first item from that array so we used [0] */}
-                <DishDetail 
-                    dish={this.state.dishes.filter((dish)=>dish.id === this.state.selectedDish)[0]} />
+                <Header />
+                <Menu dishes={this.state.dishes} onClick={(dishId) => this.onDishSelect(dishId)} />
+                <DishDetail dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]} />
+                <Footer />
             </div>
         );
     }
