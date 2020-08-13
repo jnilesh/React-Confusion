@@ -26,7 +26,10 @@ const  DishDetail = (props) => {
                         <RenderDish dish={props.dish} />
                     </div>
                     <div className="col-12 col-md-5 m-1">
-                        <RenderComments comments={props.comments} />
+                        <RenderComments comments={props.comments}
+                            addComment={props.addComment}
+                            dishId={props.dish.id}
+                          />
                     </div>
                 </div>
                 </div>
@@ -36,7 +39,7 @@ const  DishDetail = (props) => {
 export default DishDetail;
 
 
-function RenderComments({comments}) {
+function RenderComments({comments, addComment, dishId}) {
         if (comments == null) {
             return (<div></div>)
         }
@@ -61,7 +64,7 @@ function RenderComments({comments}) {
                 <ul className='list-unstyled'>
                     {cmnts}
                 </ul>
-                <CommentForm />
+                <CommentForm dishId={dishId} addComment={addComment} />
             </div>
         )
     }
@@ -112,8 +115,9 @@ function RenderComments({comments}) {
 
     handleSubmit(values) {
         this.toggleModal();
-        console.log('Current State is: ' + JSON.stringify(values));
-        alert('Current State is: ' + JSON.stringify(values));
+        this.props.addComment(this.props.dishId,values.rating,values.author,values.comment)
+        // console.log('Current State is: ' + JSON.stringify(values));
+        // alert('Current State is: ' + JSON.stringify(values));
         // event.preventDefault();
     };
 
@@ -143,9 +147,9 @@ function RenderComments({comments}) {
                                     </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlFor="name" md={12}>Your Name</Label>
+                                <Label htmlFor="author" md={12}>Your Name</Label>
                                 <Col md={12}>
-                                <Control.text model=".name" id="name" name="name"
+                                <Control.text model=".author" id="author" name="author"
                                         placeholder="Name"
                                         className="form-control"
                                         validators={{
@@ -165,9 +169,9 @@ function RenderComments({comments}) {
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlFor="message" md={12}>Comment</Label>
+                                <Label htmlFor="comment" md={12}>Comment</Label>
                                 <Col md={12}>    
-                                    <Control.textarea model=".message" id="message" name="message"
+                                    <Control.textarea model=".comment" id="comment" name="comment"
                                         rows="6"
                                         className="form-control" />
                                 </Col>
